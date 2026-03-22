@@ -34,27 +34,23 @@ def entrada_opcional_numero(rotulo: str, chave: str, valor_padrao: object = "") 
     return st.text_input(rotulo, key=chave, value="" if valor_padrao is None else str(valor_padrao))
 
 
-@st.cache_resource(show_spinner=False)
-def preparar_runtime() -> dict[str, object]:
-    return ensure_runtime_ready()
-
-
-def _load_or_rebuild_model_bundle():
-    preparar_runtime()
+def _carregar_ou_reconstruir_bundle_modelo():
     try:
-        return load_model_bundle(MODEL_DIR)
+        modelo, configuracao = load_model_bundle(MODEL_DIR)
+        return modelo, configuracao, {"built": False, "source": "bundle"}
     except Exception:
         LOGGER.warning(
             "Falha ao carregar o bundle versionado do modelo; reconstruindo artefatos de runtime.",
             exc_info=True,
         )
-        ensure_runtime_ready(force=True)
-        return load_model_bundle(MODEL_DIR)
+        status_runtime = ensure_runtime_ready(force=True)
+        modelo, configuracao = load_model_bundle(MODEL_DIR)
+        return modelo, configuracao, status_runtime
 
 
 @st.cache_resource(show_spinner=False)
 def carregar_bundle_modelo():
-    return _load_or_rebuild_model_bundle()
+    return _carregar_ou_reconstruir_bundle_modelo()
 
 
 def renderizar_grafico_explicacao(explicacao) -> plt.Figure:
@@ -84,23 +80,9 @@ def main() -> None:
         layout="wide",
     )
 
-    with st.spinner("Preparando dados e artefatos do projeto para execução..."):
-        status_runtime = preparar_runtime()
-
     st.title("Painel preditivo de risco para o próximo ciclo")
     st.caption("Ferramenta analítica para estimar a probabilidade de risco educacional com base nos indicadores mais recentes.")
-
-    if status_runtime.get("built"):
-        st.caption("Artefatos reconstruídos a partir dos dados do repositório para garantir execução em ambiente limpo.")
-
-    try:
-        modelo, configuracao_modelo = carregar_bundle_modelo()
-    except Exception as exc:
-        st.error("Não foi possível carregar o bundle do modelo nem reconstruir os artefatos necessários.")
-        st.exception(exc)
-        st.stop()
-
-    limiar_decisao = float(configuracao_modelo.get("selected_threshold", configuracao_modelo.get("threshold", 0.5)))
+    st.caption("A primeira previsão em ambiente novo pode demorar mais enquanto o modelo é validado ou reconstruído.")
 
     with st.sidebar:
         st.subheader("Ferramenta")
@@ -166,6 +148,19 @@ def main() -> None:
 
     if not calcular_risco:
         return
+
+    with st.spinner("Carregando modelo preditivo..."):
+        try:
+            modelo, configuracao_modelo, status_runtime = carregar_bundle_modelo()
+        except Exception as exc:
+            st.error("Não foi possível carregar o bundle do modelo nem reconstruir os artefatos necessários.")
+            st.exception(exc)
+            st.stop()
+
+    if status_runtime.get("built"):
+        st.info("O modelo precisou ser reconstruído no ambiente atual. As próximas previsões tendem a responder mais rápido.")
+
+    limiar_decisao = float(configuracao_modelo.get("selected_threshold", configuracao_modelo.get("threshold", 0.5)))
 
     entrada_bruta = {
         "idade": idade,

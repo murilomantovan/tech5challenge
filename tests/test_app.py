@@ -9,39 +9,35 @@ import app
 class AppModelBundleLoadTests(unittest.TestCase):
     @patch("app.ensure_runtime_ready")
     @patch("app.load_model_bundle")
-    @patch("app.preparar_runtime")
-    def test_load_model_bundle_without_rebuild(
+    def test_carrega_bundle_sem_reconstrucao(
         self,
-        preparar_runtime_mock,
         load_model_bundle_mock,
         ensure_runtime_ready_mock,
     ) -> None:
-        model_tuple = ("modelo", {"selected_threshold": 0.5})
-        load_model_bundle_mock.return_value = model_tuple
+        model_tuple = ("modelo", {"selected_threshold": 0.5}, {"built": False, "source": "bundle"})
+        load_model_bundle_mock.return_value = model_tuple[:2]
 
-        result = app._load_or_rebuild_model_bundle()
+        result = app._carregar_ou_reconstruir_bundle_modelo()
 
         self.assertEqual(result, model_tuple)
-        preparar_runtime_mock.assert_called_once_with()
         load_model_bundle_mock.assert_called_once_with(app.MODEL_DIR)
         ensure_runtime_ready_mock.assert_not_called()
 
     @patch("app.ensure_runtime_ready")
     @patch("app.load_model_bundle")
-    @patch("app.preparar_runtime")
-    def test_rebuild_when_versioned_bundle_load_fails(
+    def test_reconstroi_bundle_quando_a_carga_inicial_falha(
         self,
-        preparar_runtime_mock,
         load_model_bundle_mock,
         ensure_runtime_ready_mock,
     ) -> None:
-        model_tuple = ("modelo_reconstruido", {"selected_threshold": 0.4})
-        load_model_bundle_mock.side_effect = [RuntimeError("bundle incompatível"), model_tuple]
+        status_runtime = {"built": True, "source": "pipeline"}
+        model_tuple = ("modelo_reconstruido", {"selected_threshold": 0.4}, status_runtime)
+        load_model_bundle_mock.side_effect = [RuntimeError("bundle incompatível"), model_tuple[:2]]
+        ensure_runtime_ready_mock.return_value = status_runtime
 
-        result = app._load_or_rebuild_model_bundle()
+        result = app._carregar_ou_reconstruir_bundle_modelo()
 
         self.assertEqual(result, model_tuple)
-        preparar_runtime_mock.assert_called_once_with()
         self.assertEqual(load_model_bundle_mock.call_count, 2)
         ensure_runtime_ready_mock.assert_called_once_with(force=True)
 
