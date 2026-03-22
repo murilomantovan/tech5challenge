@@ -1,0 +1,184 @@
+[
+  {
+    "scene_id": "01_contexto",
+    "scene_number": "01",
+    "title": "Contexto e objetivo",
+    "duration_sec": 24,
+    "visual_type": "opening_clean",
+    "asset_path": "artifacts/analytics/01_ian_perfil_evolucao.png",
+    "label": "Abertura",
+    "highlight_metric": "PEDE 2022-2024",
+    "highlight_caption": "Base oficial da analise",
+    "screen_takeaway": "A entrega organiza a base historica para responder o briefing e antecipar risco no proximo ciclo.",
+    "on_screen_text": [
+      "Base oficial PEDE 2022, 2023 e 2024",
+      "Analise estruturada para responder 11 perguntas do briefing",
+      "Objetivo adicional: prever risco do proximo ciclo"
+    ],
+    "speaker_notes": "Abertura curta para situar a base, o escopo e o objetivo da solucao.",
+    "layout_notes": "Faixa superior forte, leitura de 1 linha em caixa destacada, tres pontos curtos e visual de contexto ancorado no risco da base.",
+    "narration_text": "Nossa entrega usa a base oficial do PEDE de 2022, 2023 e 2024 para entender a trajetoria dos alunos acompanhados pela Passos Magicos. A partir dela, estruturamos a analise para responder as perguntas do briefing e construir uma previsao de risco para o proximo ciclo."
+  },
+  {
+    "scene_id": "02_problema_negocio",
+    "scene_number": "02",
+    "title": "Problema de negocio e desafio",
+    "duration_sec": 18,
+    "visual_type": "figure",
+    "presentation_only": true,
+    "asset_path": "artifacts/analytics/01_ian_perfil_evolucao.png",
+    "label": "Negocio",
+    "highlight_metric": "46.2%",
+    "highlight_caption": "Risco atual em 2024",
+    "screen_takeaway": "O problema de negocio e decidir antes onde a equipe deve agir primeiro.",
+    "on_screen_text": [
+      "A Passos Magicos acompanha alunos por sinais academicos, psicossociais e de engajamento",
+      "Mesmo com melhora da base, 46.2% fecharam 2024 em risco atual",
+      "Desafio: transformar historico em priorizacao preventiva para o ciclo seguinte"
+    ],
+    "speaker_notes": "Slide extra, exclusivo da apresentacao, para explicar o problema de negocio de forma minima e mencionar o desafio sem aprofundar.",
+    "layout_notes": "Manter visual simples, poucos pontos, selo numerico do risco atual e a leitura em destaque conectando negocio e prevencao.",
+    "narration_text": "O problema de negocio e simples: a equipe precisa saber antes quais alunos merecem prioridade de acompanhamento. Mesmo com a melhora da base, 46.2% dos alunos ainda fecharam 2024 em risco atual. O desafio do datathon foi transformar esse historico em um apoio objetivo para prevencao, sem substituir a decisao humana."
+  },
+  {
+    "scene_id": "03_evolucao",
+    "scene_number": "03",
+    "title": "Evolucao academica e impacto do programa",
+    "duration_sec": 36,
+    "visual_type": "figure",
+    "asset_path": "artifacts/analytics/02_ida_evolucao.png",
+    "label": "Impacto",
+    "highlight_metric": "-23.7 p.p.",
+    "highlight_caption": "Queda de risco 2022 -> 2024",
+    "screen_takeaway": "Existe melhora real, mas ela nao acontece com a mesma intensidade em todos os ciclos do programa.",
+    "on_screen_text": [
+      "A taxa de alunos em risco caiu de 69.9% em 2022 para 46.2% em 2024",
+      "O IDA medio saiu de 6.09 para 6.66 no periodo, com leve acomodacao em 2024 frente a 2023",
+      "Em 2024, o ciclo com melhor desempenho medio foi Topazio"
+    ],
+    "speaker_notes": "Bloco de contexto analitico para provar que ha impacto, mas com heterogeneidade entre ciclos.",
+    "layout_notes": "Compor antes e depois do risco como numero principal, deixar a leitura em faixa horizontal e separar ganho medio de heterogeneidade por chips curtos.",
+    "narration_text": "Os dados mostram que o programa gera impacto real. A taxa de risco atual cai de 69.9% em 2022 para 46.2% em 2024, e o IDA medio sobe no periodo, embora 2024 mostre leve acomodacao. Quando olhamos por ciclo, o melhor desempenho medio aparece em Topazio, o que reforca que o efeito do programa nao acontece com a mesma intensidade para todos."
+  },
+  {
+    "scene_id": "04_multidimensionalidade",
+    "scene_number": "04",
+    "title": "O risco e multidimensional",
+    "duration_sec": 36,
+    "visual_type": "figure",
+    "asset_path": "artifacts/analytics/03_ieg_vs_ida_ipv.png",
+    "label": "Leitura analitica",
+    "highlight_metric": "0.79",
+    "highlight_caption": "Correlacao de IDA com INDE",
+    "screen_takeaway": "O risco do aluno nao cabe em um unico indicador. Ele aparece quando olhamos o conjunto de sinais.",
+    "on_screen_text": [
+      "O engajamento tem relacao positiva com desempenho e ponto de virada: corr(IEG, IDA)=0.54 e corr(IEG, IPV)=0.56",
+      "A autoavaliacao ajuda como contexto, mas sozinha tem correlacao fraca: corr(IAA, IDA)=0.12 e corr(IAA, IEG)=0.13",
+      "O indicador mais alinhado ao desempenho global atual e o IDA, com correlacao de 0.79 com o INDE"
+    ],
+    "speaker_notes": "Bloco que conecta engajamento, autoavaliacao e desempenho global.",
+    "layout_notes": "Leitura em destaque acima dos cards, tres pontos em cartoes curtos e visual grande com menos borda e mais contraste.",
+    "narration_text": "Quando cruzamos os indicadores, fica claro que o risco nao cabe em uma unica nota. O engajamento se relaciona com desempenho e ponto de virada, enquanto a autoavaliacao ajuda como contexto, mas tem forca limitada sozinha. Na pratica, o quadro do aluno aparece melhor quando combinamos sinais academicos e comportamentais."
+  },
+  {
+    "scene_id": "05_alertas",
+    "scene_number": "05",
+    "title": "Alertas humanos antes da queda",
+    "duration_sec": 34,
+    "visual_type": "figure",
+    "asset_path": "artifacts/analytics/05_ips_risco_proximo.png",
+    "label": "Prevencao",
+    "highlight_metric": "14.1%",
+    "highlight_caption": "Gap de risco por queda recente do INDE",
+    "screen_takeaway": "Os melhores alertas para a operacao aparecem antes da piora consolidada, e por isso sao valiosos para intervencao preventiva.",
+    "on_screen_text": [
+      "A media de IPS difere em 0.60 pontos entre quem entra ou permanece em risco e quem segue fora de risco",
+      "O IPP acompanha a defasagem, com diferenca de 0.67 entre os extremos",
+      "Quedas recentes do INDE ampliam em 14.1% a taxa de risco do proximo ano"
+    ],
+    "speaker_notes": "Bloco para reforcar que os sinais psicossociais e a queda recente do INDE antecipam vulnerabilidade.",
+    "layout_notes": "Aspecto de painel de alertas com cores de acao, leitura destacada e tres sinais operacionais distribuidos em blocos curtos.",
+    "narration_text": "Os sinais mais uteis para agir cedo aparecem antes da piora consolidada. Alunos que entram ou permanecem em risco no ciclo seguinte ja mostram IPS pior, IPP mais fragil e maior sensibilidade a quedas recentes do INDE. Isso e relevante porque abre espaco para intervencao preventiva, nao apenas reacao ao problema instalado."
+  },
+  {
+    "scene_id": "06_modelagem",
+    "scene_number": "06",
+    "title": "Como estruturamos o modelo preditivo",
+    "duration_sec": 40,
+    "visual_type": "timeline",
+    "asset_path": "src/passos_magicos_dt/modeling.py",
+    "label": "Metodo",
+    "highlight_metric": "2022 -> 2024",
+    "highlight_caption": "Janela temporal da selecao ao holdout",
+    "screen_takeaway": "O modelo foi desenhado para prever o futuro com rigor temporal, e nao para parecer bom usando informacao do presente.",
+    "on_screen_text": [
+      "Alvo: risco_proximo_ano",
+      "Selecao temporal: 2022 -> 2023",
+      "Holdout final: 2023 -> 2024",
+      "Sem usar IAN atual na modelagem para evitar vazamento"
+    ],
+    "speaker_notes": "Bloco tecnico curto para explicar o rigor metodologico sem aprofundar em codigo.",
+    "layout_notes": "Linha do tempo horizontal com destaque para selecao e holdout, leitura curta lateral e visual tecnico simplificado em vez de tela cheia de codigo.",
+    "narration_text": "Na modelagem, tomamos uma decisao metodologica importante: prever o risco do proximo ciclo, e nao classificar o risco do mesmo ano. A selecao foi feita com 2022 para prever 2023, e o holdout final com 2023 para prever 2024. Tambem tiramos o IAN atual da modelagem para evitar vazamento de informacao."
+  },
+  {
+    "scene_id": "07_resultados",
+    "scene_number": "07",
+    "title": "Resultado do holdout e valor pratico",
+    "duration_sec": 36,
+    "visual_type": "figure",
+    "asset_path": "artifacts/analytics/09_modelo_holdout.png",
+    "label": "Predicao",
+    "highlight_metric": "F2 0.56",
+    "highlight_caption": "Equilibrio entre busca e precisao",
+    "screen_takeaway": "O valor do modelo nao e substituir a equipe. O valor e organizar quem precisa ser visto antes.",
+    "on_screen_text": [
+      "No holdout 2023->2024, o modelo regressao_logistica atingiu recall=0.58, precision=0.50 e F2=0.56",
+      "Modelo final: regressao_logistica",
+      "Limiar de decisao: 0.17"
+    ],
+    "speaker_notes": "Bloco para justificar a escolha do modelo e o uso como triagem preventiva.",
+    "layout_notes": "Tres metricas principais em destaque numerico, visual comparativo em painel escuro e texto operacional curto ao lado.",
+    "narration_text": "No holdout real de 2023 para 2024, o modelo final foi a regressao logistica, com recall de 0.58, precision de 0.50 e F2 de 0.56. Em termos simples, ele encontra cerca de 58 de cada 100 alunos que realmente entram em risco, com metade dos alertas confirmados. O valor pratico nao e automatizar decisao, e sim organizar melhor a fila de triagem da equipe."
+  },
+  {
+    "scene_id": "08_extras",
+    "scene_number": "08",
+    "title": "Tres analises extras para decisao",
+    "duration_sec": 32,
+    "visual_type": "figure",
+    "asset_path": "artifacts/analytics/12_transicoes_risco.png",
+    "label": "Acao",
+    "highlight_metric": "31.8%",
+    "highlight_caption": "Gap de risco por cobertura de avaliacoes",
+    "screen_takeaway": "Os insights extras transformam storytelling em fila de acao, porque ja sugerem como priorizar o acompanhamento.",
+    "on_screen_text": [
+      "10.5% entram em risco no ciclo seguinte, enquanto 20.2% conseguem se recuperar",
+      "A queda recente do INDE amplia em 14.1% a taxa de risco do proximo ano",
+      "Baixa cobertura de avaliacoes coincide com maior vulnerabilidade futura"
+    ],
+    "speaker_notes": "Bloco de criatividade para atender o desafio e transformar analise em plano de acao.",
+    "layout_notes": "Tres cartoes de acao com mini titulos operacionais, leitura em destaque e visual ancorado por um grafico de transicoes.",
+    "narration_text": "Fomos alem das perguntas originais com tres leituras de acao. Uma separa quem entra em risco de quem permanece em risco, outra transforma a queda recente do INDE em alerta operacional, e a terceira mostra que baixa cobertura de avaliacoes caminha com maior vulnerabilidade. Isso ajuda a priorizar prevencao, revisao de caso e monitoramento."
+  },
+  {
+    "scene_id": "09_app_fechamento",
+    "scene_number": "09",
+    "title": "Aplicacao, demo e fechamento",
+    "duration_sec": 34,
+    "visual_type": "app",
+    "asset_path": "app.py",
+    "label": "Entrega",
+    "highlight_metric": "2 paginas",
+    "highlight_caption": "Predicao individual e leitura executiva",
+    "screen_takeaway": "A entrega final nao para no notebook. Ela vira ferramenta de uso real para simulacao e leitura executiva.",
+    "on_screen_text": [
+      "Pagina 1: simulador preditivo por aluno",
+      "Pagina 2: visao executiva e analitica para banca e gestao",
+      "Entrega final: notebooks, PPT/PDF, video e roteiro de 5 minutos"
+    ],
+    "speaker_notes": "Fechamento com demonstracao da solucao final e recomendacao de uso.",
+    "layout_notes": "Mockup do app em fundo escuro, dois blocos de valor e fechamento visual mais forte, sem excesso de texto.",
+    "narration_text": "Para fechar, transformamos a analise em uma entrega utilizavel. A primeira pagina do Streamlit permite simular risco por aluno, e a segunda resume os insights executivos para gestao e banca. Assim, a solucao junta analise, previsao e comunicacao gerencial no mesmo fluxo."
+  }
+]

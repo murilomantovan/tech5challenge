@@ -1,0 +1,146 @@
+{
+  "resumo_painel": {
+    "base_registros": "3030",
+    "alunos_unicos": "1661",
+    "pares_modelagem": "1365",
+    "ano_mais_recente": "2024",
+    "ian_medio_mais_recente": "7.68",
+    "taxa_risco_mais_recente": "46.2%",
+    "variacao_ida_2022_2024": "+0.26",
+    "modelo_final": "regressao_logistica",
+    "threshold_final": "0.17",
+    "recall_holdout": "0.58",
+    "precision_holdout": "0.50",
+    "f2_holdout": "0.56"
+  },
+  "qna_items": [
+    {
+      "id": "1",
+      "title": "Adequacao do nivel (IAN)",
+      "answer": "A taxa de alunos em risco caiu de 69.9% em 2022 para 46.2% em 2024.",
+      "key_number": "46.2%",
+      "figure": "artifacts/analytics/01_ian_perfil_evolucao.png",
+      "managerial_takeaway": "O programa melhora a adequacao de nivel ao longo do tempo, mas ainda termina 2024 com uma base relevante em risco.",
+      "recommended_action": "Manter trilhas preventivas para alunos em defasagem moderada antes que migrem para risco severo."
+    },
+    {
+      "id": "2",
+      "title": "Desempenho academico (IDA)",
+      "answer": "O IDA medio saiu de 6.09 para 6.66 no periodo, com leve acomodacao em 2024 frente a 2023.",
+      "key_number": "+0.26",
+      "figure": "artifacts/analytics/02_ida_evolucao.png",
+      "managerial_takeaway": "O ganho academico existe, mas nao e linear em todos os ciclos.",
+      "recommended_action": "Direcionar reforco academico aos ciclos em que o IDA desacelera para evitar acomodacao do aprendizado."
+    },
+    {
+      "id": "3",
+      "title": "Engajamento nas atividades (IEG)",
+      "answer": "O engajamento tem relacao positiva com o desempenho e o ponto de virada: corr(IEG, IDA)=0.54 e corr(IEG, IPV)=0.56.",
+      "key_number": "0.54 / 0.56",
+      "figure": "artifacts/analytics/03_ieg_vs_ida_ipv.png",
+      "managerial_takeaway": "Engajamento nao e so participacao: ele antecipa resultado academico e virada positiva.",
+      "recommended_action": "Usar quedas de IEG como gatilho operacional para intervencao rapida por monitoria e relacionamento."
+    },
+    {
+      "id": "4",
+      "title": "Autoavaliacao (IAA)",
+      "answer": "A autoavaliacao e parcialmente coerente com o desempenho real, mas a correlacao e fraca: corr(IAA, IDA)=0.12 e corr(IAA, IEG)=0.13.",
+      "key_number": "0.12",
+      "figure": "artifacts/analytics/04_iaa_coerencia.png",
+      "managerial_takeaway": "A percepcao do aluno ajuda, mas sozinha nao explica o que realmente acontece no desempenho.",
+      "recommended_action": "Combinar autoavaliacao com sinais objetivos de engajamento e desempenho antes de decidir uma intervencao."
+    },
+    {
+      "id": "5",
+      "title": "Aspectos psicossociais (IPS)",
+      "answer": "Os padroes psicossociais antecedem mudancas de risco: a media de IPS difere em 0.60 pontos entre quem entra ou permanece em risco e quem segue fora de risco.",
+      "key_number": "0.60",
+      "figure": "artifacts/analytics/05_ips_risco_proximo.png",
+      "managerial_takeaway": "O bloco psicossocial aparece antes da piora academica e pode ser usado como alerta preventivo.",
+      "recommended_action": "Priorizar suporte psicossocial e contato com familia nos perfis com pior IPS mesmo antes da queda do INDE."
+    },
+    {
+      "id": "6",
+      "title": "Aspectos psicopedagogicos (IPP)",
+      "answer": "O IPP acompanha a defasagem: a diferenca entre o maior e o menor valor medio de IPP e 0.67.",
+      "key_number": "0.67",
+      "figure": "artifacts/analytics/06_ipp_vs_ian.png",
+      "managerial_takeaway": "As avaliacoes psicopedagogicas reforcam o diagnostico de defasagem e ajudam a qualificar a priorizacao.",
+      "recommended_action": "Usar IPP para diferenciar alunos com defasagem estrutural de casos mais pontuais de oscilacao academica."
+    },
+    {
+      "id": "7",
+      "title": "Ponto de virada (IPV)",
+      "answer": "O IPV e mais influenciado por ipp, com correlacao de 0.61.",
+      "key_number": "0.61",
+      "figure": "artifacts/analytics/07_ipv_drivers.png",
+      "managerial_takeaway": "A virada positiva depende de um conjunto de sinais academicos e comportamentais, nao de um unico evento.",
+      "recommended_action": "Tratar o IPV como indicador de combinacao de sinais e nao apenas como resultado final do ano."
+    },
+    {
+      "id": "8",
+      "title": "Multidimensionalidade dos indicadores",
+      "answer": "A combinacao mais alinhada ao desempenho global atual e ida, com correlacao de 0.79 com o INDE.",
+      "key_number": "0.79",
+      "figure": "artifacts/analytics/08_multidimensionalidade_heatmap.png",
+      "managerial_takeaway": "O INDE responde a um ecossistema de fatores; olhar um indicador isolado reduz a capacidade de agir cedo.",
+      "recommended_action": "Adotar paines por aluno com visao combinada de engajamento, academico, psicossocial e psicopedagogico."
+    },
+    {
+      "id": "9",
+      "title": "Previsao de risco com Machine Learning",
+      "answer": "No holdout 2023->2024, o modelo regressao_logistica atingiu recall=0.58, precision=0.50 e F2=0.56.",
+      "key_number": "F2=0.56",
+      "figure": "artifacts/analytics/09_modelo_holdout.png",
+      "managerial_takeaway": "O modelo consegue antecipar parte relevante dos casos de risco usando apenas indicadores disponiveis antes do proximo ciclo.",
+      "recommended_action": "Usar a previsao como fila de triagem, sempre combinada com leitura pedagogica e psicossocial da equipe."
+    },
+    {
+      "id": "10",
+      "title": "Efetividade do programa",
+      "answer": "Em 2024, o ciclo com melhor desempenho medio foi Topazio, reforcando a efetividade heterogenea do programa.",
+      "key_number": "Topazio",
+      "figure": "artifacts/analytics/10_efetividade_programa.png",
+      "managerial_takeaway": "O impacto do programa existe, mas nao acontece no mesmo ritmo em todos os ciclos.",
+      "recommended_action": "Customizar metas e cadencia de acompanhamento por ciclo em vez de aplicar a mesma estrategia para toda a base."
+    },
+    {
+      "id": "11",
+      "title": "Tempo de programa e risco futuro",
+      "answer": "O risco de proximo ano varia 20.5% entre as faixas de tempo de programa, indicando necessidade de acompanhamento segmentado.",
+      "key_number": "20.5%",
+      "figure": "artifacts/analytics/11_insight_extra_tempo_programa.png",
+      "managerial_takeaway": "Tempo de casa altera o padrao de risco, portanto a mesma acao nao serve para veteranos e ingressantes.",
+      "recommended_action": "Segmentar acompanhamento por maturidade no programa, com trilhas especificas para ingressantes e alunos antigos."
+    }
+  ],
+  "extra_items": [
+    {
+      "id": "E1",
+      "title": "Transicoes de risco ano a ano",
+      "answer": "10.5% entram em risco no ciclo seguinte, enquanto 20.2% conseguem se recuperar.",
+      "key_number": "10.5%",
+      "figure": "artifacts/analytics/12_transicoes_risco.png",
+      "managerial_takeaway": "A base exige duas estrategias em paralelo: prevenir novas entradas em risco e recuperar quem ja esta vulneravel.",
+      "recommended_action": "Criar uma fila operacional separando alunos que entram em risco dos que permanecem em risco para intervencoes diferentes."
+    },
+    {
+      "id": "E2",
+      "title": "Queda recente do INDE como alerta preventivo",
+      "answer": "A diferenca entre a pior e a melhor faixa de variacao do INDE e de 14.1% na taxa de risco do proximo ano.",
+      "key_number": "14.1%",
+      "figure": "artifacts/analytics/13_delta_inde_alerta.png",
+      "managerial_takeaway": "A piora recente do INDE funciona como sinal precoce e de facil operacionalizacao para a equipe.",
+      "recommended_action": "Acionar revisao de caso sempre que houver queda relevante de INDE, mesmo antes da consolidacao do risco."
+    },
+    {
+      "id": "E3",
+      "title": "Cobertura de avaliacoes como sinal operacional",
+      "answer": "A taxa de risco varia 31.8% entre alunos com baixa e alta cobertura de avaliacoes, sugerindo que monitoramento insuficiente caminha junto com maior vulnerabilidade.",
+      "key_number": "31.8%",
+      "figure": "artifacts/analytics/14_cobertura_avaliacoes.png",
+      "managerial_takeaway": "Menor cobertura avaliativa deixa a equipe mais cega e coincide com maior risco futuro.",
+      "recommended_action": "Garantir nivel minimo de avaliacoes por aluno para reduzir pontos cegos na gestao pedagogica."
+    }
+  ]
+}
