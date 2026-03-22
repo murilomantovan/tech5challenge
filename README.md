@@ -63,29 +63,6 @@ Obrigatório para o projeto funcionar:
 - `pyproject.toml`
 - `.streamlit/` se você usar configuração própria do Streamlit
 
-Opcional, mas útil para evitar rebuild no primeiro acesso:
-
-- `artifacts/model/`
-- `artifacts/analytics/`
-- `data/processed/`
-
-## O que pode ficar fora
-
-Estas pastas não são necessárias para o app funcionar no Streamlit:
-
-- `support/`
-- `references/`
-- `archive/legacy/`
-- `artifacts/logs/`
-
-Se os artefatos de modelo e analytics não forem publicados, o runtime tenta reconstruir tudo a partir de `data/raw/`.
-
-## Testes
-
-```bash
-python -m unittest tests.test_pipeline
-```
-
 ## Documentação
 
 - [DOCUMENTACAO_TECNICA.md](DOCUMENTACAO_TECNICA.md)

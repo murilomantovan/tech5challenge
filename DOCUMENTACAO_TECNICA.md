@@ -138,27 +138,3 @@ Testes:
 ```bash
 python -m unittest tests.test_pipeline
 ```
-
-## Publicação no GitHub e Streamlit
-
-Obrigatório no repositório:
-
-- `app.py`
-- `pages/`
-- `src/`
-- `data/raw/`
-- `requirements.txt`
-- `pyproject.toml`
-
-Opcional para acelerar o deploy:
-
-- `artifacts/model/`
-- `artifacts/analytics/`
-- `data/processed/`
-
-Não é necessário para o app funcionar:
-
-- `support/`
-- `references/`
-- `archive/legacy/`
-- `artifacts/logs/`
