@@ -4,6 +4,8 @@ import shutil
 import threading
 from pathlib import Path
 
+import pandas as pd
+
 from .analysis import build_analytics
 from .config import (
     ANALYTICS_DIR,
@@ -14,6 +16,8 @@ from .config import (
     MODEL_DIR,
     MODEL_METRICS_NAME,
     PAINEL_PAYLOAD_NAME,
+    PAIR_DATASET_NAME,
+    PROCESSED_DIR,
     ROOT_DIR,
     STORYBOARD_RUNTIME_NAME,
 )
@@ -23,6 +27,11 @@ from .modeling import save_training_artifacts, train_temporal_model
 
 
 _RUNTIME_LOCK = threading.Lock()
+
+MODEL_REQUIRED_FILES = (
+    MODEL_DIR / MODEL_BUNDLE_NAME,
+    MODEL_DIR / MODEL_CONFIG_NAME,
+)
 
 RUNTIME_REQUIRED_FILES = (
     MODEL_DIR / MODEL_BUNDLE_NAME,
@@ -61,6 +70,10 @@ def runtime_artifacts_ready() -> bool:
     return all(path.exists() for path in RUNTIME_REQUIRED_FILES)
 
 
+def model_artifacts_ready() -> bool:
+    return all(path.exists() for path in MODEL_REQUIRED_FILES)
+
+
 def copy_storyboard_to_runtime(source_path: Path | None = None) -> Path | None:
     source = source_path or get_storyboard_source_path()
     if source is None or not source.exists():
@@ -70,6 +83,38 @@ def copy_storyboard_to_runtime(source_path: Path | None = None) -> Path | None:
     if not target.exists() or target.read_bytes() != source.read_bytes():
         shutil.copyfile(source, target)
     return target
+
+
+def load_training_frames() -> tuple[pd.DataFrame, int | None]:
+    pair_path = PROCESSED_DIR / PAIR_DATASET_NAME
+
+    if pair_path.exists():
+        base_pares = pd.read_parquet(pair_path)
+        return base_pares, None
+
+    pacote_dados = prepare_datasets(root=ROOT_DIR)
+    return pacote_dados.base_pares, len(pacote_dados.base_analitica)
+
+
+def ensure_model_ready(force: bool = False) -> dict[str, object]:
+    with _RUNTIME_LOCK:
+        if model_artifacts_ready() and not force:
+            return {
+                "built": False,
+                "source": "artifacts",
+            }
+
+        base_pares, base_registros = load_training_frames()
+        artefatos_treinamento = train_temporal_model(base_pares)
+        save_training_artifacts(artefatos_treinamento)
+
+        return {
+            "built": True,
+            "source": "pipeline",
+            "base_registros": base_registros,
+            "pares_modelagem": len(base_pares),
+            "modelo_final": artefatos_treinamento.model_name,
+        }
 
 
 def ensure_runtime_ready(force: bool = False) -> dict[str, object]:

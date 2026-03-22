@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+import math
 import sys
 from pathlib import Path
 
@@ -15,7 +16,7 @@ if str(DIRETORIO_SRC) not in sys.path:
 from src.passos_magicos_dt.app_support import EXAMPLE_PROFILES, build_input_dataframe, explain_prediction
 from src.passos_magicos_dt.config import MODEL_DIR
 from src.passos_magicos_dt.modeling import load_model_bundle
-from src.passos_magicos_dt.runtime import ensure_runtime_ready
+from src.passos_magicos_dt.runtime import ensure_model_ready
 
 
 LOGGER = logging.getLogger(__name__)
@@ -29,9 +30,56 @@ CICLOS_LABELS = {
     "Nao informado": "Não informado",
 }
 
+ESTADO_FORMULARIO_PADRAO = {
+    "idade": "12",
+    "genero": "Masculino",
+    "ciclo_programa": "Nao informado",
+    "fase": "Fase 3",
+    "fase_ideal_num": "",
+    "ano_ingresso": "",
+    "inde_atual": "",
+    "inde_anterior": "",
+    "cg": "",
+    "cf": "",
+    "ct": "",
+    "n_av": "",
+    "iaa": "",
+    "ieg": "",
+    "ips": "",
+    "ipp": "",
+    "ida": "",
+    "ipv": "",
+    "mat": "",
+    "por": "",
+    "ing": "",
+}
 
-def entrada_opcional_numero(rotulo: str, chave: str, valor_padrao: object = "") -> str:
-    return st.text_input(rotulo, key=chave, value="" if valor_padrao is None else str(valor_padrao))
+
+def _normalizar_valor_formulario(valor: object) -> str:
+    if valor is None:
+        return ""
+    if isinstance(valor, float) and math.isnan(valor):
+        return ""
+    return str(valor)
+
+
+def _estado_formulario_por_perfil(nome_perfil: str) -> dict[str, str]:
+    estado = ESTADO_FORMULARIO_PADRAO.copy()
+    for campo, valor in EXAMPLE_PROFILES.get(nome_perfil, {}).items():
+        estado[campo] = _normalizar_valor_formulario(valor)
+    return estado
+
+
+def _aplicar_perfil_padrao(nome_perfil: str) -> None:
+    if st.session_state.get("_perfil_aplicado") == nome_perfil:
+        return
+    for campo, valor in _estado_formulario_por_perfil(nome_perfil).items():
+        st.session_state[campo] = valor
+    st.session_state["_perfil_aplicado"] = nome_perfil
+
+
+def entrada_opcional_numero(rotulo: str, chave: str) -> str:
+    return st.text_input(rotulo, key=chave)
 
 
 def _carregar_ou_reconstruir_bundle_modelo():
@@ -43,7 +91,7 @@ def _carregar_ou_reconstruir_bundle_modelo():
             "Falha ao carregar o bundle versionado do modelo; reconstruindo artefatos de runtime.",
             exc_info=True,
         )
-        status_runtime = ensure_runtime_ready(force=True)
+        status_runtime = ensure_model_ready(force=True)
         modelo, configuracao = load_model_bundle(MODEL_DIR)
         return modelo, configuracao, status_runtime
 
@@ -89,60 +137,60 @@ def main() -> None:
         st.write("Passos Mágicos Analytics")
         st.caption("Simulador de risco por aluno com base nos indicadores mais recentes.")
 
-    nome_perfil = st.selectbox("Perfil de demonstração", ["Manual"] + list(EXAMPLE_PROFILES))
-    valores_padrao = EXAMPLE_PROFILES.get(nome_perfil, {})
+    nome_perfil = st.selectbox("Perfil de demonstração", ["Manual"] + list(EXAMPLE_PROFILES), key="perfil_demo")
+    _aplicar_perfil_padrao(nome_perfil)
 
     with st.form("formulario_predicao"):
         st.subheader("1. Perfil do aluno")
         coluna_1, coluna_2, coluna_3, coluna_4 = st.columns(4)
         with coluna_1:
-            idade = entrada_opcional_numero("Idade", "idade", valores_padrao.get("idade", 12))
+            idade = entrada_opcional_numero("Idade", "idade")
         with coluna_2:
             genero = st.selectbox(
                 "Gênero",
                 ["Masculino", "Feminino"],
-                index=0 if valores_padrao.get("genero", "Masculino") == "Masculino" else 1,
+                key="genero",
             )
         with coluna_3:
             ciclo_programa = st.selectbox(
                 "Ciclo do programa",
                 CICLOS_PROGRAMA,
-                index=CICLOS_PROGRAMA.index(valores_padrao.get("ciclo_programa", "Nao informado")),
+                key="ciclo_programa",
                 format_func=lambda valor: CICLOS_LABELS.get(valor, valor),
             )
         with coluna_4:
-            fase_atual = st.text_input("Fase atual", value=valores_padrao.get("fase", "Fase 3"))
+            fase_atual = st.text_input("Fase atual", key="fase")
 
         st.subheader("2. Indicadores atuais")
         coluna_5, coluna_6, coluna_7, coluna_8 = st.columns(4)
         with coluna_5:
-            inde_atual = entrada_opcional_numero("INDE atual", "inde_atual", valores_padrao.get("inde_atual", ""))
-            inde_anterior = entrada_opcional_numero("INDE do ano anterior", "inde_anterior", valores_padrao.get("inde_anterior", ""))
-            ida = entrada_opcional_numero("IDA", "ida", valores_padrao.get("ida", ""))
+            inde_atual = entrada_opcional_numero("INDE atual", "inde_atual")
+            inde_anterior = entrada_opcional_numero("INDE do ano anterior", "inde_anterior")
+            ida = entrada_opcional_numero("IDA", "ida")
         with coluna_6:
-            ieg = entrada_opcional_numero("IEG", "ieg", valores_padrao.get("ieg", ""))
-            iaa = entrada_opcional_numero("IAA", "iaa", valores_padrao.get("iaa", ""))
-            ipv = entrada_opcional_numero("IPV", "ipv", valores_padrao.get("ipv", ""))
+            ieg = entrada_opcional_numero("IEG", "ieg")
+            iaa = entrada_opcional_numero("IAA", "iaa")
+            ipv = entrada_opcional_numero("IPV", "ipv")
         with coluna_7:
-            ips = entrada_opcional_numero("IPS", "ips", valores_padrao.get("ips", ""))
-            ipp = entrada_opcional_numero("IPP", "ipp", valores_padrao.get("ipp", ""))
-            numero_avaliacoes = entrada_opcional_numero("Número de avaliações", "n_av", valores_padrao.get("n_av", ""))
+            ips = entrada_opcional_numero("IPS", "ips")
+            ipp = entrada_opcional_numero("IPP", "ipp")
+            numero_avaliacoes = entrada_opcional_numero("Número de avaliações", "n_av")
         with coluna_8:
-            cg = entrada_opcional_numero("CG", "cg", valores_padrao.get("cg", ""))
-            cf = entrada_opcional_numero("CF", "cf", valores_padrao.get("cf", ""))
-            ct = entrada_opcional_numero("CT", "ct", valores_padrao.get("ct", ""))
+            cg = entrada_opcional_numero("CG", "cg")
+            cf = entrada_opcional_numero("CF", "cf")
+            ct = entrada_opcional_numero("CT", "ct")
 
         with st.expander("Notas e histórico opcional"):
             coluna_9, coluna_10, coluna_11, coluna_12 = st.columns(4)
             with coluna_9:
-                matematica = entrada_opcional_numero("Matemática", "mat", valores_padrao.get("mat", ""))
+                matematica = entrada_opcional_numero("Matemática", "mat")
             with coluna_10:
-                portugues = entrada_opcional_numero("Português", "por", valores_padrao.get("por", ""))
+                portugues = entrada_opcional_numero("Português", "por")
             with coluna_11:
-                ingles = entrada_opcional_numero("Inglês", "ing", valores_padrao.get("ing", ""))
+                ingles = entrada_opcional_numero("Inglês", "ing")
             with coluna_12:
-                fase_ideal_numerica = entrada_opcional_numero("Fase ideal numérica", "fase_ideal_num", valores_padrao.get("fase_ideal_num", ""))
-                ano_ingresso = entrada_opcional_numero("Ano de ingresso", "ano_ingresso", valores_padrao.get("ano_ingresso", ""))
+                fase_ideal_numerica = entrada_opcional_numero("Fase ideal numérica", "fase_ideal_num")
+                ano_ingresso = entrada_opcional_numero("Ano de ingresso", "ano_ingresso")
 
         calcular_risco = st.form_submit_button("Calcular risco do próximo ciclo", type="primary")
 
