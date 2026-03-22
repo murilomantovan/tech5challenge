@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import sys
 from pathlib import Path
 
@@ -16,6 +17,8 @@ from src.passos_magicos_dt.config import MODEL_DIR
 from src.passos_magicos_dt.modeling import load_model_bundle
 from src.passos_magicos_dt.runtime import ensure_runtime_ready
 
+
+LOGGER = logging.getLogger(__name__)
 
 CICLOS_PROGRAMA = ["Quartzo", "Agata", "Ametista", "Topazio", "Nao informado"]
 CICLOS_LABELS = {
@@ -36,10 +39,22 @@ def preparar_runtime() -> dict[str, object]:
     return ensure_runtime_ready()
 
 
+def _load_or_rebuild_model_bundle():
+    preparar_runtime()
+    try:
+        return load_model_bundle(MODEL_DIR)
+    except Exception:
+        LOGGER.warning(
+            "Falha ao carregar o bundle versionado do modelo; reconstruindo artefatos de runtime.",
+            exc_info=True,
+        )
+        ensure_runtime_ready(force=True)
+        return load_model_bundle(MODEL_DIR)
+
+
 @st.cache_resource(show_spinner=False)
 def carregar_bundle_modelo():
-    preparar_runtime()
-    return load_model_bundle(MODEL_DIR)
+    return _load_or_rebuild_model_bundle()
 
 
 def renderizar_grafico_explicacao(explicacao) -> plt.Figure:
